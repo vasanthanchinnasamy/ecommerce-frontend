@@ -26,10 +26,6 @@ export const EcommerceAppBar = ({ shop }) => {
   const classes = useStyles();
   const open = Boolean();
 
-  const handleChange = (event) => {
-    // setAuth(event.target.checked);
-  };
-
   const handleMenu = (event) => {
     // setAnchorEl(event.currentTarget);
   };

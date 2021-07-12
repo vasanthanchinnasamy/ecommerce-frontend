@@ -1,10 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useParams,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { StoreListPage } from "./pages/StoreListPage";
 import { ProductListPage } from "./pages/ProductListPage";
 import { HomePage } from "./pages/HomePage";
