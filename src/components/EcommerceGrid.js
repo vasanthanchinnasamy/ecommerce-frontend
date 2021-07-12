@@ -31,27 +31,33 @@ export const EcommerceGrid = ({ products }) => {
     <div style={{ marginTop: "16px" }}>
       <Grid container spacing={2}>
         {products.map((product) => (
-          <Grid item xs={4} alignItems="center">
+          <Grid item xs={12} alignItems="center">
             <Card key={product.productId} product={product}>
               <CardActionArea>
-                <CardContent align="center">
-                  <Avatar
-                    className={classes.blue}
-                    variant="square"
-                    style={{ height: "104px", width: "167px" }}
-                  >
-                    {product.productName.charAt(0)}
-                  </Avatar>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {product.productName}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    {product.productName}
-                  </Typography>
+                <CardContent align="left">
+                  <Grid container spacing={2} wrap="nowrap">
+                    <Grid item>
+                      <Avatar
+                        className={classes.blue}
+                        variant="square"
+                        style={{ height: "104px", width: "167px" }}
+                      >
+                        {product.productName.charAt(0)}
+                      </Avatar>
+                    </Grid>
+                    <Grid item>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {product.productName}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        {product.productName}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </CardContent>
               </CardActionArea>
             </Card>

@@ -9,6 +9,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  blue: {
+    color: theme.palette.getContrastText(blue[500]),
+    backgroundColor: blue[500],
   },
 }));
 
@@ -35,7 +40,7 @@ export const EcommerceAppBar = ({ shop }) => {
   };
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.blue}>
         <Toolbar>
           <IconButton
             edge="start"
