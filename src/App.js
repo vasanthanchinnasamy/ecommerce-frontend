@@ -5,7 +5,7 @@ import { ProductListPage } from "./pages/ProductListPage";
 import { HomePage } from "./pages/HomePage";
 function App() {
   return (
-    <div>
+    <div className="App">
       <Router>
         <Switch>
           <Route path="/stores">

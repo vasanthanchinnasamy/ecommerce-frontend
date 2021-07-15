@@ -7,6 +7,9 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import { makeStyles } from "@material-ui/core/styles";
 import { blue, common } from "@material-ui/core/colors";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,45 +24,99 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #CAC2C8",
     borderRadius: "24px",
     height: "48px",
-    // marginInline: "16px",
+  },
+  countInput: {
+    width: "80px",
   },
 }));
 
 export const EcommerceGrid = ({ products }) => {
   const classes = useStyles();
+
+  const handleAdd = (event) => {
+    console.log(event);
+  };
+
   return (
     <div style={{ marginTop: "16px" }}>
       <Grid container spacing={2}>
         {products.map((product) => (
-          <Grid item xs={12} alignItems="center">
-            <Card key={product.productId} product={product}>
-              <CardActionArea>
-                <CardContent align="left">
-                  <Grid container spacing={2} wrap="nowrap">
-                    <Grid item>
-                      <Avatar
-                        className={classes.blue}
-                        variant="square"
-                        style={{ height: "104px", width: "167px" }}
-                      >
-                        {product.productName.charAt(0)}
-                      </Avatar>
-                    </Grid>
-                    <Grid item>
+          <Grid item xs={12} key={product.productId}>
+            <Card product={product}>
+              {/* <CardActionArea> */}
+              <CardContent align="left">
+                <Grid container spacing={2} wrap="nowrap">
+                  <Grid item>
+                    <Avatar
+                      className={classes.blue}
+                      variant="square"
+                      style={{ height: "200px", width: "200px" }}
+                    >
+                      {product.productName.charAt(0)}
+                    </Avatar>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {product.productName}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      {product.productName}
+                    </Typography>
+                  </Grid>
+                  <Grid container direction="column" alignItems="flex-end">
+                    <Grid item xs={6}>
                       <Typography gutterBottom variant="h5" component="h2">
-                        {product.productName}
+                        ₹7,999
                       </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        {product.productName}
-                      </Typography>
+                    </Grid>
+                    <Grid
+                      container
+                      direction="column"
+                      alignItems="flex-end"
+                      justifyContent="flex-end"
+                      xs={6}
+                    >
+                      <Grid>
+                        {!product.productDescription && (
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleAdd}
+                          >
+                            Add
+                          </Button>
+                        )}
+                      </Grid>
+                      <Grid>
+                        {/* <Button href="#text-buttons" color="primary">
+                            -
+                          </Button>
+                          <Button href="#text-buttons" color="primary">
+                            +
+                          </Button> */}
+
+                        {product.productDescription && (
+                          <TextField
+                            id="outlined-number"
+                            type="number"
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            variant="outlined"
+                            size="small"
+                            className={classes.countInput}
+                          />
+                        )}
+                      </Grid>
                     </Grid>
                   </Grid>
-                </CardContent>
-              </CardActionArea>
+                </Grid>
+              </CardContent>
+              {/* </CardActionArea> */}
             </Card>
           </Grid>
         ))}
