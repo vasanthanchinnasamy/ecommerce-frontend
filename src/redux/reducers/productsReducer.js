@@ -5,7 +5,9 @@ const productsReducer = (state = [], action) => {
     case "DECREMENT":
       return state - 1;
     case "RESET":
-      return (state = 0);
+      return (state = []);
+    case "SET":
+      return (state = action.products);
     default:
       return state;
   }

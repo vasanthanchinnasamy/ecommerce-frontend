@@ -10,6 +10,10 @@ export const reset = () => {
   return { type: "RESET" };
 };
 
+export const set = (productData) => {
+  return { type: "SET", products: productData };
+};
+
 export const logIn = () => {
   return { type: "LOG_IN" };
 };

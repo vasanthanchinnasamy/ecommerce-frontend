@@ -8,6 +8,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { blue, common } from "@material-ui/core/colors";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import { useSelector, useDispatch } from "react-redux";
+import { set } from "../redux/actions";
 
 import TextField from "@material-ui/core/TextField";
 
@@ -30,11 +32,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const EcommerceGrid = ({ products }) => {
+export const EcommerceGrid = ({ products1 }) => {
+  const products = useSelector((state) => state.productsReducer);
+  const dispatch = useDispatch();
+  console.log("productsReducer");
+  console.log(products);
   const classes = useStyles();
 
-  const handleAdd = (event) => {
+  const handleAdd = (event, product) => {
     console.log(event);
+    console.log(product);
+    console.log(products);
+
+    const updatedData = products.map((x) =>
+      x.productId === product.productId
+        ? { ...x, productDescription: "new" }
+        : x
+    );
+    dispatch(set(updatedData));
   };
 
   const handleCountChange = (event) => {
@@ -89,7 +104,7 @@ export const EcommerceGrid = ({ products }) => {
                           <Button
                             variant="contained"
                             color="primary"
-                            onClick={handleAdd}
+                            onClick={(event) => handleAdd(event, product)}
                           >
                             Add
                           </Button>
