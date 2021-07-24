@@ -37,6 +37,10 @@ export const EcommerceGrid = ({ products }) => {
     console.log(event);
   };
 
+  const handleCountChange = (event) => {
+    console.log(event);
+  };
+
   return (
     <div style={{ marginTop: "16px" }}>
       <Grid container spacing={2}>
@@ -109,6 +113,8 @@ export const EcommerceGrid = ({ products }) => {
                             variant="outlined"
                             size="small"
                             className={classes.countInput}
+                            InputProps={{ inputProps: { min: 0 } }}
+                            onChange={handleCountChange}
                           />
                         )}
                       </Grid>
