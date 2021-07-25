@@ -10,6 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { set } from "../redux/actions";
+import _ from "lodash";
 
 import TextField from "@material-ui/core/TextField";
 
@@ -50,6 +51,22 @@ export const EcommerceGrid = ({ products1 }) => {
         : x
     );
     dispatch(set(updatedData));
+
+    let cart = [];
+    if (typeof window !== undefined) {
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      }
+
+      cart.push({ ...product, count: 1 });
+
+      //remove duplicates
+      let unique = _.uniqWith(cart, _.isEqual);
+
+      // save to local storage
+
+      localStorage.setItem("cart", JSON.stringify(unique));
+    }
   };
 
   const handleCountChange = (event) => {

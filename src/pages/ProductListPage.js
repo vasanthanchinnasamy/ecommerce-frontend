@@ -35,7 +35,7 @@ export const ProductListPage = () => {
     };
     fetchProducts();
     fetchShop();
-  }, [storeId]);
+  }, [storeId, dispatch]);
 
   return (
     <div>
