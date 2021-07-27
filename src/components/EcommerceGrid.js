@@ -9,7 +9,7 @@ import { blue, common } from "@material-ui/core/colors";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { set } from "../redux/actions";
+import { set, addToCart } from "../redux/actions";
 import _ from "lodash";
 
 import TextField from "@material-ui/core/TextField";
@@ -66,6 +66,8 @@ export const EcommerceGrid = ({ products1 }) => {
       // save to local storage
 
       localStorage.setItem("cart", JSON.stringify(unique));
+
+      dispatch(addToCart(unique));
     }
   };
 

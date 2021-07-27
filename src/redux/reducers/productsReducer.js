@@ -7,7 +7,7 @@ const productsReducer = (state = [], action) => {
     case "RESET":
       return (state = []);
     case "SET":
-      return (state = action.products);
+      return (state = action.payload);
     default:
       return state;
   }
