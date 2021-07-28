@@ -10,6 +10,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { blue } from "@material-ui/core/colors";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
 export const EcommerceAppBar = ({ shop }) => {
   const classes = useStyles();
   const open = Boolean();
+
+  const cart = useSelector((state) => state.cartReducer);
 
   const handleMenu = (event) => {
     // setAnchorEl(event.currentTarget);
@@ -52,6 +55,10 @@ export const EcommerceAppBar = ({ shop }) => {
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             {shop.shopName}
+          </Typography>
+
+          <Typography variant="h6" className={classes.title}>
+            {cart.length}
           </Typography>
 
           <div>

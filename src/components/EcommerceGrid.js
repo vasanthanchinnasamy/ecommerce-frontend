@@ -9,7 +9,7 @@ import { blue, common } from "@material-ui/core/colors";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { set, addToCart } from "../redux/actions";
+import { addToCart } from "../redux/actions";
 import _ from "lodash";
 
 import TextField from "@material-ui/core/TextField";
@@ -35,23 +35,13 @@ const useStyles = makeStyles((theme) => ({
 
 export const EcommerceGrid = ({ products1 }) => {
   const products = useSelector((state) => state.productsReducer);
+  const cart = useSelector((state) => state.cartReducer);
   const dispatch = useDispatch();
   console.log("productsReducer");
   console.log(products);
   const classes = useStyles();
 
   const handleAdd = (event, product) => {
-    console.log(event);
-    console.log(product);
-    console.log(products);
-
-    const updatedData = products.map((x) =>
-      x.productId === product.productId
-        ? { ...x, productDescription: "new" }
-        : x
-    );
-    dispatch(set(updatedData));
-
     let cart = [];
     if (typeof window !== undefined) {
       if (localStorage.getItem("cart")) {
@@ -71,8 +61,21 @@ export const EcommerceGrid = ({ products1 }) => {
     }
   };
 
-  const handleCountChange = (event) => {
-    console.log(event);
+  const handleCountChange = (event, product) => {
+    console.log(event.target.value);
+    const value = event.target.value;
+
+    if (value >= 0) {
+      const updatedData = cart.map((currentProduct) =>
+        currentProduct.productId === product.productId
+          ? { ...currentProduct, count: value }
+          : currentProduct
+      );
+
+      localStorage.setItem("cart", JSON.stringify(updatedData));
+
+      dispatch(addToCart(updatedData));
+    }
   };
 
   return (
@@ -119,7 +122,10 @@ export const EcommerceGrid = ({ products1 }) => {
                       xs={6}
                     >
                       <Grid>
-                        {!product.productDescription && (
+                        {!cart.some(
+                          (cartProduct) =>
+                            cartProduct.productId === product.productId
+                        ) && (
                           <Button
                             variant="contained"
                             color="primary"
@@ -137,7 +143,10 @@ export const EcommerceGrid = ({ products1 }) => {
                             +
                           </Button> */}
 
-                        {product.productDescription && (
+                        {cart.some(
+                          (cartProduct) =>
+                            cartProduct.productId === product.productId
+                        ) && (
                           <TextField
                             id="outlined-number"
                             type="number"
@@ -148,7 +157,15 @@ export const EcommerceGrid = ({ products1 }) => {
                             size="small"
                             className={classes.countInput}
                             InputProps={{ inputProps: { min: 0 } }}
-                            onChange={handleCountChange}
+                            onChange={(event) =>
+                              handleCountChange(event, product)
+                            }
+                            value={cart
+                              .filter(
+                                (cartProduct) =>
+                                  cartProduct.productId === product.productId
+                              )
+                              .map((cartProduct) => cartProduct.count)}
                           />
                         )}
                       </Grid>
