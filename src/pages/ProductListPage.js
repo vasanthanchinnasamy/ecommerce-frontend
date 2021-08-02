@@ -4,6 +4,7 @@ import { EcommerceAppBar } from "../components/EcommerceAppBar";
 import { EcommerceGrid } from "../components/EcommerceGrid";
 import { useSelector, useDispatch } from "react-redux";
 import { set } from "../redux/actions";
+import { makeStyles } from "@material-ui/core/styles";
 
 export const ProductListPage = () => {
   const [products, setProducts] = useState([]);
@@ -37,9 +38,15 @@ export const ProductListPage = () => {
     fetchShop();
   }, [storeId, dispatch]);
 
+  const useStyles = makeStyles((theme) => ({
+    appBarSpacer: theme.mixins.toolbar,
+  }));
+  const classes = useStyles();
+
   return (
     <div>
       <EcommerceAppBar shop={shop} />
+      <div className={classes.appBarSpacer}></div>
       <EcommerceGrid products={products} />
     </div>
   );

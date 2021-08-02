@@ -65,11 +65,19 @@ export const EcommerceGrid = ({ products1 }) => {
     console.log(event.target.value);
     const value = event.target.value;
 
-    if (value >= 0) {
+    if (value > 0) {
       const updatedData = cart.map((currentProduct) =>
         currentProduct.productId === product.productId
           ? { ...currentProduct, count: value }
           : currentProduct
+      );
+
+      localStorage.setItem("cart", JSON.stringify(updatedData));
+
+      dispatch(addToCart(updatedData));
+    } else {
+      const updatedData = cart.filter(
+        (currentProduct) => currentProduct.productId !== product.productId
       );
 
       localStorage.setItem("cart", JSON.stringify(updatedData));

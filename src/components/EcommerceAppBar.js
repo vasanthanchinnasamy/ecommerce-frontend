@@ -11,6 +11,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { blue } from "@material-ui/core/colors";
 import { useSelector } from "react-redux";
+import ShoppingCartRoundedIcon from "@material-ui/icons/ShoppingCartRounded";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +44,7 @@ export const EcommerceAppBar = ({ shop }) => {
   };
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.blue}>
+      <AppBar position="fixed" className={classes.blue}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -57,9 +58,18 @@ export const EcommerceAppBar = ({ shop }) => {
             {shop.shopName}
           </Typography>
 
-          <Typography variant="h6" className={classes.title}>
+          {/* <Typography variant="h6" className={classes.title}>
             {cart.length}
-          </Typography>
+          </Typography> */}
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
+            <ShoppingCartRoundedIcon />
+            {cart.length > 0 && <Typography>{cart.length}</Typography>}
+          </IconButton>
 
           <div>
             <IconButton
