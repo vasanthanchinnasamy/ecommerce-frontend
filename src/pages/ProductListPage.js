@@ -5,6 +5,7 @@ import { EcommerceGrid } from "../components/EcommerceGrid";
 import { useSelector, useDispatch } from "react-redux";
 import { set } from "../redux/actions";
 import { makeStyles } from "@material-ui/core/styles";
+import {API_BASE_URL} from '../constants/constants.js'
 
 export const ProductListPage = () => {
   const [products, setProducts] = useState([]);
@@ -19,7 +20,7 @@ export const ProductListPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await fetch(
-        `https://ecommerce-backend-java.herokuapp.com/product/getByShop/${storeId}`
+        `${API_BASE_URL}/product/getByShop/${storeId}`
       );
       const data = await response.json();
       console.log(data);
@@ -28,7 +29,7 @@ export const ProductListPage = () => {
     };
     const fetchShop = async () => {
       const response = await fetch(
-        `https://ecommerce-backend-java.herokuapp.com/shop/get/${storeId}`
+        `${API_BASE_URL}/shop/get/${storeId}`
       );
       const data = await response.json();
       console.log(data);

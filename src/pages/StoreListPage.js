@@ -3,6 +3,7 @@ import ShopAppBar from "../components/ShopAppBar.js";
 import ShopCard from "../components/ShopCard.js";
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import {API_BASE_URL} from '../constants/constants.js'
 
 
 const useStyles = makeStyles({
@@ -15,7 +16,7 @@ export const StoreListPage = () => {
   const classes = useStyles();
 
   useEffect(()=>{
-    fetch(`https://ecommerce-backend-java.herokuapp.com/shop/getAll`)
+    fetch(`${API_BASE_URL}/shop/getAll`)
     .then((response) => response.json())
     .then(setData);
   },[]);
