@@ -43,7 +43,7 @@ if(!data){
   alignItems="center">
       {data.map((product,i)=><div 
       onClick={(e)=> {
-        openInNewTab("/products/"+e.target.getAttribute("id"));
+        openInNewTab("/"+e.target.getAttribute("id")+"/products");
         }} 
         key={product.shopId} ><ShopCard imageUrl={getUrl({i})} title = {product.shopName} id={product.shopId} description = {product.shopDescription}></ShopCard></div>)}
       </Grid>

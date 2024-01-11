@@ -9,7 +9,8 @@ import {API_BASE_URL} from '../constants/constants.js'
 
 export const ProductListPage = () => {
   const [products, setProducts] = useState([]);
-  const [shop, setShop] = useState({});
+  const [store, setStore] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const { storeId } = useParams();
   const dispatch = useDispatch();
   const counter = useSelector((state) => state.productsReducer);
@@ -18,25 +19,30 @@ export const ProductListPage = () => {
   console.log(counter);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await fetch(
-        `${API_BASE_URL}/product/getByShop/${storeId}`
-      );
-      const data = await response.json();
-      console.log(data);
-      setProducts(data);
-      dispatch(set(data));
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+
+      const [productsResponse, shopResponse] = await Promise.all([
+          fetch(`${API_BASE_URL}/product/getByShop/${storeId}`).then(response => response.json()),
+          fetch(`${API_BASE_URL}/shop/get/${storeId}`).then(response => response.json())
+        ]);
+
+        setProducts(productsResponse);
+        setStore(shopResponse);
+        dispatch(set(productsResponse));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
-    const fetchShop = async () => {
-      const response = await fetch(
-        `${API_BASE_URL}/shop/get/${storeId}`
-      );
-      const data = await response.json();
-      console.log(data);
-      setShop(data);
+
+    fetchData();
+
+    return () => {
+      // Cleanup function (if needed)
     };
-    fetchProducts();
-    fetchShop();
   }, [storeId, dispatch]);
 
   const useStyles = makeStyles((theme) => ({
@@ -46,9 +52,13 @@ export const ProductListPage = () => {
 
   return (
     <div>
-      <EcommerceAppBar shop={shop} />
+      <EcommerceAppBar shop={store} />
       <div className={classes.appBarSpacer}></div>
+{isLoading ? (
+        <p>Loading...</p>
+      ) : (
       <EcommerceGrid products={products} />
+)}
     </div>
   );
 };

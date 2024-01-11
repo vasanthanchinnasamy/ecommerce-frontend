@@ -3,7 +3,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
-// import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActionArea from "@material-ui/core/CardActionArea";
 import { makeStyles } from "@material-ui/core/styles";
 import { blue, common } from "@material-ui/core/colors";
 import Grid from "@material-ui/core/Grid";
@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../redux/actions";
 import _ from "lodash";
+import { useHistory } from "react-router-dom";
 
 import TextField from "@material-ui/core/TextField";
 
@@ -40,6 +41,12 @@ export const EcommerceGrid = ({ products1 }) => {
   console.log("productsReducer");
   console.log(products);
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleGridClick = (event,product) => {
+    // Navigate to the desired URL when the grid is clicked
+    history.push("/product/"+product.product.productId);
+  };
 
   const handleAdd = (event, product) => {
     let cart = [];
@@ -58,6 +65,7 @@ export const EcommerceGrid = ({ products1 }) => {
       localStorage.setItem("cart", JSON.stringify(unique));
 
       dispatch(addToCart(unique));
+      event.stopPropagation();
     }
   };
 
@@ -67,7 +75,7 @@ export const EcommerceGrid = ({ products1 }) => {
 
     if (value > 0) {
       const updatedData = cart.map((currentProduct) =>
-        currentProduct.productId === product.productId
+        currentProduct.product.productId === product.product.productId
           ? { ...currentProduct, count: value }
           : currentProduct
       );
@@ -77,23 +85,25 @@ export const EcommerceGrid = ({ products1 }) => {
       dispatch(addToCart(updatedData));
     } else {
       const updatedData = cart.filter(
-        (currentProduct) => currentProduct.productId !== product.productId
+        (currentProduct) => currentProduct.product.productId !== product.product.productId
       );
 
       localStorage.setItem("cart", JSON.stringify(updatedData));
 
       dispatch(addToCart(updatedData));
     }
+    event.stopPropagation();
   };
 
   return (
     <div style={{ marginTop: "16px" }}>
       <Grid container spacing={2}>
         {products.map((product) => (
-          <Grid item xs={12} key={product.productId}>
+          <Grid item xs={12} key={product.product.productId}>
             <Card product={product}>
-              {/* <CardActionArea> */}
-              <CardContent align="left">
+              <CardActionArea onClick={(event) =>handleGridClick(event,product)}>
+              {/* <div onClick={handleGridClick}> */}
+              <CardContent align="left" >
                 <Grid container spacing={2} wrap="nowrap">
                   <Grid item>
                     <Avatar
@@ -101,25 +111,25 @@ export const EcommerceGrid = ({ products1 }) => {
                       variant="square"
                       style={{ height: "200px", width: "200px" }}
                     >
-                      {product.productName.charAt(0)}
+                      {product.product.productName.charAt(0)}
                     </Avatar>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {product.productName}
+                      {product.product.productName}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      {product.productName}
+                      {product.product.productName}
                     </Typography>
                   </Grid>
                   <Grid container direction="column" alignItems="flex-end">
                     <Grid item xs={6}>
                       <Typography gutterBottom variant="h5" component="h2">
-                        ₹7,999
+                      {product.numberOfSkus>1?'starts from':''} ₹{product.minPrice}
                       </Typography>
                     </Grid>
                     <Grid
@@ -132,12 +142,13 @@ export const EcommerceGrid = ({ products1 }) => {
                       <Grid>
                         {!cart.some(
                           (cartProduct) =>
-                            cartProduct.productId === product.productId
+                            cartProduct.product.productId === product.product.productId
                         ) && (
                           <Button
                             variant="contained"
                             color="primary"
                             onClick={(event) => handleAdd(event, product)}
+                            onMouseDown={(event) => { event.stopPropagation() }}
                           >
                             Add
                           </Button>
@@ -153,7 +164,7 @@ export const EcommerceGrid = ({ products1 }) => {
 
                         {cart.some(
                           (cartProduct) =>
-                            cartProduct.productId === product.productId
+                            cartProduct.product.productId === product.product.productId
                         ) && (
                           <TextField
                             id="outlined-number"
@@ -168,10 +179,11 @@ export const EcommerceGrid = ({ products1 }) => {
                             onChange={(event) =>
                               handleCountChange(event, product)
                             }
+                            onMouseDown={(event) => { event.stopPropagation() }}
                             value={cart
                               .filter(
                                 (cartProduct) =>
-                                  cartProduct.productId === product.productId
+                                  cartProduct.product.productId === product.product.productId
                               )
                               .map((cartProduct) => cartProduct.count)}
                           />
@@ -181,7 +193,8 @@ export const EcommerceGrid = ({ products1 }) => {
                   </Grid>
                 </Grid>
               </CardContent>
-              {/* </CardActionArea> */}
+              {/* </div> */}
+              </CardActionArea>
             </Card>
           </Grid>
         ))}
